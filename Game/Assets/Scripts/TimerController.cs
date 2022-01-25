@@ -16,6 +16,7 @@ public class TimerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //update this to be relative to parent penguin location 
         transform.localScale= new Vector3(penguinScript.timeLeft*0.001f,1,1);
         transform.localPosition= new Vector3(penguinScript.timeLeft * 0.0011f-1.15f, -0.55f, 0);
 

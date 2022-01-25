@@ -1,15 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PenguinController : MonoBehaviour
 {
     private Animator pAnimator;
-    private Vector3 destination;
-    private Vector3 start;
+    
     public float timeLeft;
     private bool leaving;
     private GameObject bubble;
+
+
+    //variables that need to be accessed from manager
+    public Vector3 start;
+    public Vector3 destination;
+    public int order;
+    public GameObject bubbleImage;
 
     // Start is called before the first frame update
     void Start()
@@ -17,12 +24,9 @@ public class PenguinController : MonoBehaviour
         //set amount of time penguin will wait
         timeLeft = 1000.0f;
         leaving = false;
-
-        //vector that determins destination of penguin
-        start = new Vector3(12, 0, 0);
-        destination = new Vector3(0,0,0);
+        
         //set starting position 
-        transform.position = new Vector3(12, 0, 0);
+        transform.position = start;
 
         //set animator parameter
         pAnimator = GetComponent<Animator>();
@@ -35,12 +39,10 @@ public class PenguinController : MonoBehaviour
         //bool that gets set to true when the penguin gets correct ice cream
         pAnimator.SetBool("gotOrder", false);
         //int that determines what type of order the penguin wants
-        pAnimator.SetInteger("orderType", 1);
+        pAnimator.SetInteger("orderType", order);
 
         //get child bubble
         bubble = transform.GetChild(0).gameObject;
-
-        
     }
 
     // Update is called once per frame
@@ -66,6 +68,7 @@ public class PenguinController : MonoBehaviour
             }
 
             //if I press f key
+            //change to if the correct ice cream is dropped on penguin collider
             if (Input.GetKey(KeyCode.F))
             {
                 pAnimator.SetBool("gotOrder", true);
@@ -82,8 +85,14 @@ public class PenguinController : MonoBehaviour
         }
         else if (leaving && transform.position.x >= start.x) {
             pAnimator.SetBool("leftScreen", true);
+            Destroy(this.gameObject);
         }
+    }
 
-        
+    void OnCollisionStay2D(Collision2D collisionInfo)
+    {
+        if (collisionInfo.gameObject.CompareTag("Draggable") && !Input.GetMouseButton(0)) {
+            Debug.Log("Order recieved");
+        }
     }
 }
