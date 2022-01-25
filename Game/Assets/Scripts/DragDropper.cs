@@ -27,7 +27,7 @@ public class DragDropper : MonoBehaviour
     private void MousePressed(InputAction.CallbackContext context) {
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit2D hit2D = Physics2D.GetRayIntersection(ray);
-        if (hit2D.collider != null && hit2D.collider.gameObject.CompareTag("Draggable")) {
+        if (hit2D.collider != null && (hit2D.collider.gameObject.CompareTag("Draggable1") || hit2D.collider.gameObject.CompareTag("Draggable2"))) {
             StartCoroutine(DragUpdate(hit2D.collider.gameObject));
         }
     }

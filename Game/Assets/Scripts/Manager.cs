@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
     public static Manager instance;
     public static int score;
+    private float timeLeft=5000.0f;
     private string scoreText;
     [SerializeField] GameObject scoreTextUI;
 
@@ -27,13 +29,13 @@ public class Manager : MonoBehaviour
         }
         instance = this;
         score = 0;
-        scoreText = "Shells: "+score;
+        scoreText = "Shells: "+score + " | Time left: " + timeLeft.ToString("0.0");
 
         //generate a list of penguins 
         for (int i = 0; i < penguinNum; i++) {
             int newX = Random.Range(0,8);
             int newY = Random.Range(-3,3);
-            int newOrder = Random.Range(0, 2);
+            int newOrder = Random.Range(1, 3);
             GameObject obj = Instantiate(penguinPrefab) as GameObject; 
             PenguinController penguinScript = obj.GetComponent<PenguinController>();
             penguinScript.start = new Vector3(12, newY, 0);
@@ -53,9 +55,18 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        scoreText = "Shells: " + score;
+        timeLeft = timeLeft - 0.1f;
+        scoreText = "Shells: " + score + " | Time left: " + timeLeft.ToString("0.0");
         scoreTextUI.GetComponent<Text>().text=scoreText;
-        
+        if (timeLeft <= 0) {
+            if (score >= 100)
+            {
+                SceneManager.LoadScene("WinScene");
+            }
+            else {
+                SceneManager.LoadScene("LoseScene");
+            }
+        }
     }
     IEnumerator SpawnPenguins()
     {

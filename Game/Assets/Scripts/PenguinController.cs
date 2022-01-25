@@ -11,7 +11,6 @@ public class PenguinController : MonoBehaviour
     private bool leaving;
     private GameObject bubble;
 
-
     //variables that need to be accessed from manager
     public Vector3 start;
     public Vector3 destination;
@@ -66,15 +65,6 @@ public class PenguinController : MonoBehaviour
                 pAnimator.SetBool("timeOut", true);
                 leaving = true;
             }
-
-            //if I press f key
-            //change to if the correct ice cream is dropped on penguin collider
-            if (Input.GetKey(KeyCode.F))
-            {
-                pAnimator.SetBool("gotOrder", true);
-                leaving = true;
-                Manager.score += 1;
-            }
         }
 
         //penguin leaves upset
@@ -91,8 +81,18 @@ public class PenguinController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collisionInfo)
     {
-        if (collisionInfo.gameObject.CompareTag("Draggable") && !Input.GetMouseButton(0)) {
-            Debug.Log("Order recieved");
+        if ((collisionInfo.gameObject.CompareTag("Draggable1")|| collisionInfo.gameObject.CompareTag("Draggable2")) && !Input.GetMouseButton(0)) {
+            if (collisionInfo.gameObject.CompareTag("Draggable1") && order == 1 || collisionInfo.gameObject.CompareTag("Draggable2") && order == 2)
+            {
+                pAnimator.SetBool("gotOrder", true);
+                leaving = true;
+                Manager.score += 1;
+            }
+            else {
+                pAnimator.SetBool("timeOut", true);
+                leaving = true;
+            }
+            collisionInfo.gameObject.SetActive(false);
         }
     }
 }
