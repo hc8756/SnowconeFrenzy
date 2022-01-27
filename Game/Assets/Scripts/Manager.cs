@@ -34,7 +34,7 @@ public class Manager : MonoBehaviour
         //generate a list of penguins 
         for (int i = 0; i < penguinNum; i++) {
             int newX = Random.Range(0,8);
-            int newY = Random.Range(-3,3);
+            int newY = Random.Range(-3,1);
             int newOrder = Random.Range(1, 3);
             GameObject obj = Instantiate(penguinPrefab) as GameObject; 
             PenguinController penguinScript = obj.GetComponent<PenguinController>();
