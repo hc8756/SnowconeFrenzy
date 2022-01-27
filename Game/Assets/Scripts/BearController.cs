@@ -90,7 +90,7 @@ public class BearController : MonoBehaviour
     }
     IEnumerator MakeIceCream2()
     {
-        yield return new WaitForSeconds(1.4f);
+        yield return new WaitForSeconds(1.2f);
         Instantiate(prefab2, spawner.transform.position, Quaternion.identity);
     }
 }

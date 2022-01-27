@@ -6,6 +6,8 @@ using UnityEngine;
 public class PenguinController : MonoBehaviour
 {
     private Animator pAnimator;
+    private BoxCollider2D pCollider;
+    private SpriteRenderer pRenderer;
     
     public float timeLeft;
     private bool leaving;
@@ -15,17 +17,23 @@ public class PenguinController : MonoBehaviour
     public Vector3 start;
     public Vector3 destination;
     public int order;
+    public int layer;
     public GameObject bubbleImage;
 
     // Start is called before the first frame update
     void Start()
     {
+        pRenderer = GetComponent<SpriteRenderer>();
+        pCollider = GetComponent<BoxCollider2D>();
+        pCollider.enabled = false;
         //set amount of time penguin will wait
         timeLeft = 1000.0f;
         leaving = false;
         
         //set starting position 
         transform.position = start;
+        pRenderer.sortingOrder = layer;
+
 
         //set animator parameter
         pAnimator = GetComponent<Animator>();
@@ -42,6 +50,7 @@ public class PenguinController : MonoBehaviour
 
         //get child bubble
         bubble = transform.GetChild(0).gameObject;
+        bubble.GetComponent<Canvas>().sortingOrder = layer;
     }
 
     // Update is called once per frame
@@ -56,6 +65,7 @@ public class PenguinController : MonoBehaviour
         else if (transform.position.x <= destination.x && !leaving)
         {
             pAnimator.SetBool("locReached", true);
+            pCollider.enabled = true;
             bubble.SetActive(true);
             //start timer
             timeLeft -= 0.1f;
@@ -81,18 +91,18 @@ public class PenguinController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collisionInfo)
     {
-        if ((collisionInfo.gameObject.CompareTag("Draggable1")|| collisionInfo.gameObject.CompareTag("Draggable2")) && !Input.GetMouseButton(0)) {
-            if (collisionInfo.gameObject.CompareTag("Draggable1") && order == 1 || collisionInfo.gameObject.CompareTag("Draggable2") && order == 2)
-            {
-                pAnimator.SetBool("gotOrder", true);
-                leaving = true;
-                Manager.score += 1;
-            }
-            else {
-                pAnimator.SetBool("timeOut", true);
-                leaving = true;
-            }
-            collisionInfo.gameObject.SetActive(false);
+        if ((collisionInfo.gameObject.CompareTag("Draggable1") || collisionInfo.gameObject.CompareTag("Draggable2")) && collisionInfo.gameObject.layer==0 && !Input.GetMouseButton(0) && Mathf.Abs(destination.x-transform.position.x)<0.2f) {
+                if (collisionInfo.gameObject.CompareTag("Draggable1") && order == 1 || collisionInfo.gameObject.CompareTag("Draggable2") && order == 2)
+                {
+                    pAnimator.SetBool("gotOrder", true);
+                    leaving = true;
+                    Manager.score += 1;
+                }
+                else {
+                    pAnimator.SetBool("timeOut", true);
+                    leaving = true;
+                }
+                collisionInfo.gameObject.SetActive(false);
         }
     }
 }

@@ -15,7 +15,7 @@ public class WaitForFinish : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         timeElapsed = timeElapsed + 1f;
-        if (timeElapsed >= 650) {
+        if (timeElapsed >= 550) {
             BearController.canPressAgain = true;
         }
     }

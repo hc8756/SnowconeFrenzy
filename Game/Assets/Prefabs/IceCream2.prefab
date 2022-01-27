@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2899592263131223328}
   - component: {fileID: 2899592263131223330}
   - component: {fileID: 2899592263131223333}
-  m_Layer: 0
+  - component: {fileID: 5341918595372990402}
+  m_Layer: 6
   m_Name: IceCream2
   m_TagString: Draggable2
   m_Icon: {fileID: 0}
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 6b7fd5fd1af1de346a0b0ee529d8cf49, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -124,10 +125,23 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
+--- !u!114 &5341918595372990402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2899592263131223329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 276f9b71f21ca9b42b8bd39ff578ea3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collisionName: 

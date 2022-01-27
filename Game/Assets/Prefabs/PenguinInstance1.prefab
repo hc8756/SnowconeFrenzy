@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4820818844553662264}
   m_Layer: 0
   m_Name: PenguinInstance1
-  m_TagString: Untagged
+  m_TagString: penguin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,6 +144,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeLeft: 0
+  start: {x: 0, y: 0, z: 0}
+  destination: {x: 0, y: 0, z: 0}
+  order: 0
+  layer: 0
+  bubbleImage: {fileID: 0}
 --- !u!1 &4820818845322317353
 GameObject:
   m_ObjectHideFlags: 0
