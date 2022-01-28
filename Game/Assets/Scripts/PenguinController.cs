@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PenguinController : MonoBehaviour
 {
@@ -91,18 +92,24 @@ public class PenguinController : MonoBehaviour
 
     void OnCollisionStay2D(Collision2D collisionInfo)
     {
-        if ((collisionInfo.gameObject.CompareTag("Draggable1") || collisionInfo.gameObject.CompareTag("Draggable2")) && collisionInfo.gameObject.layer==0 && !Input.GetMouseButton(0) && Mathf.Abs(destination.x-transform.position.x)<0.2f) {
+        if (collisionInfo.gameObject.GetComponent<IceCreamLayer>() != null && collisionInfo.gameObject.GetComponent<IceCreamLayer>().collisionNum == 1) {if (collisionInfo.gameObject.layer==0 && !Input.GetMouseButton(0) && Mathf.Abs(destination.x-transform.position.x)<0.2f && timeLeft>0.0f) {
+                
                 if (collisionInfo.gameObject.CompareTag("Draggable1") && order == 1 || collisionInfo.gameObject.CompareTag("Draggable2") && order == 2)
                 {
                     pAnimator.SetBool("gotOrder", true);
                     leaving = true;
-                    Manager.score += 1;
+                if (SceneManager.GetActiveScene().name != "Tutorial") {Manager.score += 1;
+                    Manager.instance.PlaySound(0); }
                 }
                 else {
                     pAnimator.SetBool("timeOut", true);
                     leaving = true;
-                }
+                if (SceneManager.GetActiveScene().name != "Tutorial") {  Manager.instance.PlaySound(1); }
+                  
+            }
                 collisionInfo.gameObject.SetActive(false);
+        } 
         }
+        
     }
 }

@@ -8,7 +8,7 @@ public class Manager : MonoBehaviour
 {
     public static Manager instance;
     public static int score;
-    private float timeLeft=6000.0f;
+    private float timeLeft = 6000.0f;
     private float timeLeftSimple;
     private string uiText;
     [SerializeField] GameObject uiTextUI;
@@ -23,6 +23,9 @@ public class Manager : MonoBehaviour
     public Sprite icecream1;
     public Sprite icecream2;
 
+    public AudioSource audioSourceG;
+    public AudioSource audioSourceB;
+    public AudioSource audioSourceM;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,26 +33,26 @@ public class Manager : MonoBehaviour
             Debug.LogWarning("More than one manager in scene");
         }
         instance = this;
-        score = 0; 
+        score = 0;
         timeLeftSimple = timeLeft / 100.0f;
-        uiText = "Cones Sold: "+score + " | Time left: " + timeLeftSimple.ToString("0");
-       
+        uiText = "Cones Sold: " + score + "/20 | Time left: " + timeLeftSimple.ToString("0");
+
         //generate a list of penguins 
         for (int i = 0; i < penguinNum; i++) {
             int newOrder = Random.Range(1, 3);
-            GameObject obj = Instantiate(penguinPrefab) as GameObject; 
+            GameObject obj = Instantiate(penguinPrefab) as GameObject;
             PenguinController penguinScript = obj.GetComponent<PenguinController>();
 
-            penguinScript.destination = penguinLoc[i%4];  
+            penguinScript.destination = penguinLoc[i % 4];
             //Set layer order depending on y location
             if (penguinScript.destination.y > 0) { penguinScript.layer = 1; }
             else if (penguinScript.destination.y < 0) { penguinScript.layer = 0; }
             //set start position based on destination
             penguinScript.start = new Vector3(10, penguinScript.destination.y, 0);
             penguinScript.order = newOrder;
-            penguinScript.bubbleImage= obj.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
-            if (newOrder == 1) {penguinScript.bubbleImage.GetComponent<Image>().sprite = icecream1; }
-            else {penguinScript.bubbleImage.GetComponent<Image>().sprite = icecream2; }
+            penguinScript.bubbleImage = obj.transform.GetChild(0).GetChild(0).GetChild(0).gameObject;
+            if (newOrder == 1) { penguinScript.bubbleImage.GetComponent<Image>().sprite = icecream1; }
+            else { penguinScript.bubbleImage.GetComponent<Image>().sprite = icecream2; }
             obj.name = "penguin" + i;
             obj.SetActive(false);
             penguinList.Add(obj);
@@ -57,6 +60,11 @@ public class Manager : MonoBehaviour
 
         //spawn them
         StartCoroutine("SpawnPenguins");
+        StartCoroutine("IncreasePitch");
+        audioSourceG.enabled = true;
+        audioSourceB.enabled = true;
+        audioSourceM.enabled = true;
+        audioSourceM.pitch = 1;
     }
 
     // Update is called once per frame
@@ -64,8 +72,8 @@ public class Manager : MonoBehaviour
     {
         timeLeft = timeLeft - 0.1f;
         timeLeftSimple = timeLeft / 100.0f;
-        uiText = "Cones Sold: " + score + " | Time left: " + timeLeftSimple.ToString("0") +" seconds";
-        uiTextUI.GetComponent<Text>().text=uiText;
+        uiText = "Cones Sold: " + score + "/20 | Time left: " + timeLeftSimple.ToString("0") + " seconds";
+        uiTextUI.GetComponent<Text>().text = uiText;
         if (timeLeft <= 0) {
             if (score >= 20)
             {
@@ -79,12 +87,29 @@ public class Manager : MonoBehaviour
     IEnumerator SpawnPenguins()
     {
         for (int i = 0; i < penguinNum; i++)
-        {   
+        {
             yield return new WaitForSeconds(2.0f);
             GameObject[] activePenguins = GameObject.FindGameObjectsWithTag("penguin");
-            if (activePenguins.Length <4 ) { penguinList[i].SetActive(true); }
+            if (activePenguins.Length < 4) { penguinList[i].SetActive(true); }
             else { i = i - 1; }
-            
+
+        }
+    }
+
+    public void PlaySound(int index) {
+        if (index == 0) 
+        { audioSourceG.Play(); }
+        if ( index == 1)
+        { audioSourceB.Play(); }
+    }
+
+    IEnumerator IncreasePitch()
+    {
+        for (int i = 0; i <8; i++)
+        {
+            audioSourceM.pitch = (int)(i/2)+1;
+            audioSourceM.Play();
+            yield return new WaitForSeconds(20.5f / audioSourceM.pitch);
         }
     }
 }

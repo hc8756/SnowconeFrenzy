@@ -5,11 +5,11 @@ using UnityEngine;
 public class IceCreamLayer : MonoBehaviour
 {
 
-  
+    public int collisionNum;
     // Start is called before the first frame update
     void Start()
     {
-
+        collisionNum = 0;
     }
 
     // Update is called once per frame
@@ -22,4 +22,20 @@ public class IceCreamLayer : MonoBehaviour
     {
         gameObject.layer = 0;
     }
+
+    public void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "penguin")
+        {
+            collisionNum++;
+        }
+    }
+    void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "penguin")
+        {
+            collisionNum--;
+        }
+    }
+
 }

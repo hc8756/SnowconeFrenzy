@@ -14,10 +14,12 @@ public class BearController : MonoBehaviour
     private Animator bAnimator;
     private bool waiting = false;
     public static bool canPressAgain = false;
+    
     // Start is called before the first frame update
     void Start()
     {
         bAnimator = GetComponent<Animator>();
+        
         //initially collider2 and 3 are disabled
         collider1.SetActive(true);
         collider2.SetActive(false);

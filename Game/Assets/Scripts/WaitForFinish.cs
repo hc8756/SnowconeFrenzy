@@ -8,6 +8,9 @@ public class WaitForFinish : StateMachineBehaviour
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        AudioSource audioSource = animator.GetComponent<AudioSource>();
+        audioSource.enabled = true;
+        audioSource.Play();
         timeElapsed = 0.0f;
     }
 
@@ -17,6 +20,7 @@ public class WaitForFinish : StateMachineBehaviour
         timeElapsed = timeElapsed + 1f;
         if (timeElapsed >= 550) {
             BearController.canPressAgain = true;
+            BearControllerTutorial.canPressAgain = true;
         }
     }
 
