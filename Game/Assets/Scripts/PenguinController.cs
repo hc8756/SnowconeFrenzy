@@ -69,7 +69,7 @@ public class PenguinController : MonoBehaviour
             pCollider.enabled = true;
             bubble.SetActive(true);
             //start timer
-            timeLeft -= 0.1f;
+            timeLeft -=  Time.deltaTime*50;
             //if timer runs out
             if (timeLeft <= 0.0f)
             {
@@ -108,8 +108,8 @@ public class PenguinController : MonoBehaviour
                   
             }
                 collisionInfo.gameObject.SetActive(false);
-        } 
-        }
+        } }
         
+
     }
 }

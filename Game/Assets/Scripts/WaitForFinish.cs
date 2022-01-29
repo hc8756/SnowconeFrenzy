@@ -17,8 +17,8 @@ public class WaitForFinish : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        timeElapsed = timeElapsed + 1f;
-        if (timeElapsed >= 550) {
+        timeElapsed = timeElapsed + Time.deltaTime;
+        if (timeElapsed >= 0.75f) {
             BearController.canPressAgain = true;
             BearControllerTutorial.canPressAgain = true;
         }

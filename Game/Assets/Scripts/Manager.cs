@@ -8,8 +8,7 @@ public class Manager : MonoBehaviour
 {
     public static Manager instance;
     public static int score;
-    private float timeLeft = 6000.0f;
-    private float timeLeftSimple;
+    private float timeLeft = 60.0f;
     private string uiText;
     [SerializeField] GameObject uiTextUI;
 
@@ -29,13 +28,13 @@ public class Manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        score = 0;
         if (instance != null) {
             Debug.LogWarning("More than one manager in scene");
         }
         instance = this;
-        score = 0;
-        timeLeftSimple = timeLeft / 100.0f;
-        uiText = "Cones Sold: " + score + "/20 | Time left: " + timeLeftSimple.ToString("0");
+
+        uiText = "Cones Sold: " + score + "/12 | Time left: " + timeLeft.ToString("0") +" seconds";
 
         //generate a list of penguins 
         for (int i = 0; i < penguinNum; i++) {
@@ -70,12 +69,12 @@ public class Manager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timeLeft = timeLeft - 0.1f;
-        timeLeftSimple = timeLeft / 100.0f;
-        uiText = "Cones Sold: " + score + "/20 | Time left: " + timeLeftSimple.ToString("0") + " seconds";
+
+        timeLeft = timeLeft - Time.deltaTime;
+        uiText = "Cones Sold: " + score + "/12 | Time left: " + timeLeft.ToString("0")+" seconds";
         uiTextUI.GetComponent<Text>().text = uiText;
         if (timeLeft <= 0) {
-            if (score >= 20)
+            if (score >= 12)
             {
                 SceneManager.LoadScene("WinScene");
             }
